@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:flutter_application_1/widget/bottombar_widget.dart';
-
+import 'package:get/get.dart';
 import 'SlideBar.dart';
 
 import '../TAB_SCREENS/Channel.dart';

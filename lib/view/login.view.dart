@@ -6,6 +6,7 @@ import 'button.dart';
 import 'my_text_field.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:get/get.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -17,7 +18,8 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
+  // final name = RxString('');
+  // final id = RxString('');
   //sign users in method
   Future<void> signUserIn() async {
     var url = Uri.parse('http://10.194.109.36:8000/api-token-auth/');
@@ -38,11 +40,12 @@ class _LoginViewState extends State<LoginView> {
           ),
         );
       } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ));
+        String name = jsonResponse['name'];
+        
+        String lname=jsonResponse['lname'];
+        // var id = ''.obs;
+
+        Get.to(HomePage(), arguments: [name,lname]);
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
