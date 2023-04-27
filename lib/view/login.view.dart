@@ -47,31 +47,15 @@ class _LoginViewState extends State<LoginView> {
         );
       } else {
         String name = jsonResponse['name'];
-        
-        String lname=jsonResponse['lname'];
+
+        String lname = jsonResponse['lname'];
         // var id = ''.obs;
 
-        Get.to(HomePage(), arguments: [name,lname]);
+        Get.to(HomePage(), arguments: [name, lname]);
       }
-=======
-  
-    //sign users in method
-  void signUserIn() {
-    if (usernameController.text == 'fasika' && 
-        passwordController.text == 'fasika') {
-      
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ));
-
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Invalid username or password'),
-        ),
-      );
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {

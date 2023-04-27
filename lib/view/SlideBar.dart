@@ -3,15 +3,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
-
+import 'package:get/get.dart';
 import '../TAB_SCREENS/CourseRegister.dart';
 import '../TAB_SCREENS/setting.dart';
 
 class SlideBar extends StatelessWidget {
   const SlideBar({super.key});
-void getData(){
-
-}
+  void getData() {}
   @override
   Widget build(BuildContext context) {
     return Drawer(
