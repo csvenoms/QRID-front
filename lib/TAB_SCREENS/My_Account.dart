@@ -17,10 +17,10 @@ class MyAccount extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          'My Account',
+          'My Information',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 25,
+            fontSize: 20,
             fontFamily: 'Space Age',
           ),
         ),

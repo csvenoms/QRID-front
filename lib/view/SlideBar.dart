@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
-import 'package:get/get.dart';
+
 import '../TAB_SCREENS/CourseRegister.dart';
+import '../TAB_SCREENS/setting.dart';
 
 class SlideBar extends StatelessWidget {
   const SlideBar({super.key});
@@ -34,7 +36,7 @@ void getData(){
           ),
           ListTile(
             leading: Icon(Icons.person),
-            title: Text('My Account'),
+            title: Text('My Information'),
             hoverColor: Colors.grey,
             onTap: () {
               Navigator.push(
@@ -66,12 +68,12 @@ void getData(){
           ListTile(
             leading: Icon(Icons.settings_applications),
             title: Text('Setting'),
-            // onTap: () =>null,
-          ),
-          ListTile(
-            leading: Icon(Icons.help),
-            title: Text('Help & Support'),
-            // onTap: () =>null,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Setting()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.info),

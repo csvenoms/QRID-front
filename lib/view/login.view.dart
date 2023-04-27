@@ -1,6 +1,11 @@
 // ignore: unused_import
+// ignore_for_file: prefer_const_constructors, unused_local_variable
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/home.view.dart';
+
 import '../utils/global.colors.dart';
 import 'button.dart';
 import 'my_text_field.dart';
@@ -18,6 +23,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
   // final name = RxString('');
   // final id = RxString('');
   //sign users in method
@@ -47,6 +53,17 @@ class _LoginViewState extends State<LoginView> {
 
         Get.to(HomePage(), arguments: [name,lname]);
       }
+=======
+  
+    //sign users in method
+  void signUserIn() {
+    if (usernameController.text == 'fasika' && 
+        passwordController.text == 'fasika') {
+      
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ));
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
