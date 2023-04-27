@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.5
   hexcolor: ^3.0.1
   scroll_app_bar: ^2.0.0
+  http: ^0.13.5
   
 dev_dependencies:
   flutter_test:

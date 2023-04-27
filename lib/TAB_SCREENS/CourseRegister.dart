@@ -20,7 +20,7 @@ class CourseRegister extends StatelessWidget {
           'Course Registration',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 25,
+            fontSize: 20,
             fontFamily: 'Space Age',
           ),
         ),
