@@ -62,18 +62,6 @@ class _LoginViewState extends State<LoginView> {
                   fontSize: 48,
                   fontFamily: 'Space Age',
                 ),
-              ),Container(
-                  padding: const EdgeInsets.all(35.0),
-                  width: 200,
-                  height: 200,
-                  child: Image.asset('assets/logo/wku-logo.png')),
-
-              const Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontFamily: 'Space Age',
-                ),
               ),
               const SizedBox(
                 height: 20,
