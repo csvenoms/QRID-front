@@ -25,12 +25,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      
       length: 6,
       child: Scaffold(
         // ignore: prefer_const_constructors
         drawer: SlideBar(),
         appBar: ScrollAppBar(
+          
           // ignore: prefer_const_constructors
+          
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
@@ -95,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                 child: TabBarView(
                   children: [
                     SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
+                        physics: null ,
                         controller: controller,
                         child: const Home()),
                     const Channel(),

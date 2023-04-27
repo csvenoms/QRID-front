@@ -1,10 +1,11 @@
 // ignore: unused_import
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/home.view.dart';
-
 import '../utils/global.colors.dart';
 import 'button.dart';
 import 'my_text_field.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -16,20 +17,41 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  
-    //sign users in method
-  void signUserIn() {
-    if (usernameController.text == 'fasika' && 
-        passwordController.text == 'fasika') {
-      
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ));
+
+  //sign users in method
+  Future<void> signUserIn() async {
+    var url = Uri.parse('http://10.194.109.36:8000/api-token-auth/');
+    var response = await http.post(url, body: {
+      'username': usernameController.text,
+      'password': passwordController.text,
+    });
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      var token = jsonResponse['token'];
+
+      if (jsonResponse['roll'] != 'Student') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                jsonResponse['roll'] + " is not implimented on mobile yet!"),
+          ),
+        );
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ));
+      }
     } else {
-      // handle invalid login
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Invalid username or password'),
+        ),
+      );
     }
-  
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +60,21 @@ class _LoginViewState extends State<LoginView> {
         body: SingleChildScrollView(
             child: SafeArea(
                 child: Center(
-                child: Column(
-          // ignore: sized_box_for_whitespace
-          children: [
-          Container(
-            padding: const EdgeInsets.all(35.0),
-              width: 200,
-              height: 200,
-              child: Image.asset('assets/logo/wku-logo.png')),
-      
-            const Text(
+                    child: Column(
+                        // ignore: sized_box_for_whitespace
+                        children: [
+              Container(
+                  padding: const EdgeInsets.all(35.0),
+                  width: 200,
+                  height: 200,
+                  child: Image.asset('assets/logo/wku-logo.png')),
+
+              const Text(
                 'Login',
                 style: TextStyle(
-                 fontSize: 48,
-                 fontFamily:'Space Age',),
+                  fontSize: 48,
+                  fontFamily: 'Space Age',
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -80,9 +103,6 @@ class _LoginViewState extends State<LoginView> {
               MyButton(
                 onTap: signUserIn,
               ),
-
-
-
-       ])))));
+            ])))));
   }
 }
