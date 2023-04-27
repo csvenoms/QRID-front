@@ -3,12 +3,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
+
 import '../TAB_SCREENS/CourseRegister.dart';
 import '../TAB_SCREENS/setting.dart';
 
 class SlideBar extends StatelessWidget {
   const SlideBar({super.key});
+void getData(){
 
+}
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -17,7 +20,7 @@ class SlideBar extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              'Name',
+              "${Get.arguments[0]} ${Get.arguments[1]}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             accountEmail: null,

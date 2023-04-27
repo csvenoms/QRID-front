@@ -11,6 +11,7 @@ import 'button.dart';
 import 'my_text_field.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:get/get.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -22,6 +23,37 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  // final name = RxString('');
+  // final id = RxString('');
+  //sign users in method
+  Future<void> signUserIn() async {
+    var url = Uri.parse('http://10.194.109.36:8000/api-token-auth/');
+    var response = await http.post(url, body: {
+      'username': usernameController.text,
+      'password': passwordController.text,
+    });
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      var token = jsonResponse['token'];
+
+      if (jsonResponse['roll'] != 'Student') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                jsonResponse['roll'] + " is not implimented on mobile yet!"),
+          ),
+        );
+      } else {
+        String name = jsonResponse['name'];
+        
+        String lname=jsonResponse['lname'];
+        // var id = ''.obs;
+
+        Get.to(HomePage(), arguments: [name,lname]);
+      }
+=======
   
     //sign users in method
   void signUserIn() {
@@ -31,6 +63,7 @@ class _LoginViewState extends State<LoginView> {
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => const HomePage(),
       ));
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
