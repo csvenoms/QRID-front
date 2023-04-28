@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, duplicate_ignore
+// ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, unused_import, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';

@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, duplicate_ignore
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../utils/global.colors.dart';
+import 'ChangePassword.dart';
+import 'PrivacyAndSecurityScreen.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -11,6 +14,14 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  bool valNotify1 = false;
+
+  onChangeFunction1(bool newValue1) {
+    setState(() {
+      valNotify1 = newValue1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +64,7 @@ class _SettingState extends State<Setting> {
             Divider(height: 20, thickness: 2),
             SizedBox(height: 10),
             buildAccountOption(context, "Change Password"),
-            buildAccountOption(context, "Privacy and Security"),
+            buildPrivacyAndSecurityOption(context, "Privacy and Security"),
             SizedBox(height: 40),
             Row(
               children: [
@@ -69,7 +80,8 @@ class _SettingState extends State<Setting> {
               ],
             ),
             Divider(height: 20, thickness: 2),
-            SizedBox(height: 10)
+            SizedBox(height: 10),
+            buildNoticationOption("Theme Dark", valNotify1, onChangeFunction1)
           ],
         ),
       ),
@@ -80,12 +92,68 @@ class _SettingState extends State<Setting> {
       String title, bool value, Function onChangeMethod) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600]),
+          ),
+          Transform.scale(
+            scale: 0.7,
+            child: CupertinoSwitch(
+              activeColor: Colors.blue,
+              trackColor: Colors.grey,
+              value: value,
+              onChanged: (bool newValue) {
+                onChangeMethod(newValue);
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 
   GestureDetector buildAccountOption(BuildContext context, String title) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChangePassword()),
+        );
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(title,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600],
+              )),
+          Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.grey,
+          )
+        ]),
+      ),
+    );
+  }
+
+  GestureDetector buildPrivacyAndSecurityOption(
+      BuildContext context, String title) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PrivacyAndSecurityScreen()),
+        );
+      },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child:

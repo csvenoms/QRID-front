@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, duplicate_ignore
 
 import 'package:flutter/material.dart';
 import '../utils/global.colors.dart';
@@ -89,6 +89,7 @@ class MyAccount extends StatelessWidget {
                       text: 'STUDENT NAME',
                     ),
                   ),
+                  SizedBox(height: 16),
                   TextField(
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -99,7 +100,9 @@ class MyAccount extends StatelessWidget {
                       labelText: 'Your ID',
                       border: OutlineInputBorder(),
                     ),
-                    controller: TextEditingController(text: 'NSR/####/##'),
+                    controller: TextEditingController(
+                      text: 'NSR/####/##',
+                    ),
                   ),
                 ],
               ))),
