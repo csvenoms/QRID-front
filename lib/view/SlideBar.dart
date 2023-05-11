@@ -24,7 +24,7 @@ class SlideBar extends StatelessWidget {
               "${Get.arguments[0]} ${Get.arguments[1]}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            accountEmail: null,
+            accountEmail: Text("${Get.arguments[2]}"),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(),
             ),

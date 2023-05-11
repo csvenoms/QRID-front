@@ -39,6 +39,8 @@ dependencies:
   hexcolor: ^3.0.1
   scroll_app_bar: ^2.0.0
   http: ^0.13.5
+  qr_flutter: ^4.0.0
+  barcode_scan2: ^4.2.4
   
 dev_dependencies:
   flutter_test:

@@ -15,25 +15,25 @@ import '../TAB_SCREENS/Notificatons.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  // final String id = Get.arguments[2].obs;
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
-
   @override
   Widget build(BuildContext context) {
+    
     return DefaultTabController(
-      
       length: 6,
       child: Scaffold(
         // ignore: prefer_const_constructors
         drawer: SlideBar(),
         appBar: ScrollAppBar(
-          
           // ignore: prefer_const_constructors
-          
+
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                 child: TabBarView(
                   children: [
                     SingleChildScrollView(
-                        physics: null ,
+                        physics: null,
                         controller: controller,
                         child: const Home()),
                     const Channel(),

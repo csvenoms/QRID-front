@@ -1,7 +1,3 @@
-// ignore: file_names
-// ignore_for_file: prefer_const_constructors
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/NotificationWidegt.dart';
 
