@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import '../utils/NotificationWidegt.dart';
 
-class NotificationP extends StatefulWidget{
+import '../utils/ChatWidget.dart';
 
-  const NotificationP({Key? key}) : super(key: key);
+
+class Chat extends StatefulWidget{
+
+  const Chat({Key? key}) : super(key: key);
   @override
-  State<NotificationP> createState()=>_NotificationPState(); 
+  State<Chat> createState()=>_ChatState(); 
  
   
 
 }
 
-class _NotificationPState extends State<NotificationP> {
+class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class _NotificationPState extends State<NotificationP> {
           padding: EdgeInsets.zero,
           itemCount: 10,
           itemBuilder: (context,index){
-          return  NotificationWidegt();
+          return  ChatWidget();
         }, separatorBuilder: (context, index){
           return  Divider();
         }),
@@ -29,5 +31,3 @@ class _NotificationPState extends State<NotificationP> {
     ); 
   }
 }
-
-

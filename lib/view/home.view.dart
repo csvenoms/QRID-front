@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, duplicate_ignore
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/TAB_SCREENS/Chat.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:flutter_application_1/widget/bottombar_widget.dart';
 
@@ -98,9 +99,9 @@ class _HomePageState extends State<HomePage> {
                         physics: const BouncingScrollPhysics(),
                         controller: controller,
                         child: const Home()),
-                    const Channel(),
+                    const Chat(),
                     // ignore: prefer_const_constructors
-                    Notifications(),
+                    NotificationP(),
                   ],
                 ),
               ),
