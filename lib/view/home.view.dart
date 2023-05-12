@@ -102,9 +102,10 @@ class _HomePageState extends State<HomePage> {
                         physics: null,
                         controller: controller,
                         child: const Home()),
-                    const Chat(),
+                    
                     // ignore: prefer_const_constructors
-                    NotificationP(),
+                    Chat(),
+                   Notifications(),
                   ],
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
-
+import "package:http/http.dart" as http;
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
 
@@ -29,8 +29,18 @@ class _ScanPageState extends State<ScanPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-           
+            const SizedBox(
+              height: 25.0,
+            ),
             // qr code image
+        (qrCodeResult != "Not Yet Scanned") ? GestureDetector(child: Text("Got data"), onTap: () async{
+            var url = Uri.parse("http://10.194.109.26:8000/instructor/attended");
+            var resp = http.post(url, body: {
+              'name': "yeab"
+            });
+            print('data sent');
+             
+           },):Text(''),
            
             const SizedBox(
               height: 25.0,
