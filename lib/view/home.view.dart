@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    
     return DefaultTabController(
       length: 6,
       child: Scaffold(
@@ -108,6 +107,12 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            GestureDetector(
+              child: Text("afd00"),
+              onTap: (() {
+                print("tappd");
+              }),
+            )
           ],
         ),
         bottomNavigationBar: const BottombarWidget(),

@@ -128,7 +128,7 @@ class _GenerateQrCodePageState extends State<GenerateQrCodePage> {
                   ),
                 ),
               ),
-              const SizedBox(
+                const SizedBox(
                 height: 30.0,
               ),
             ],
