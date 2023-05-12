@@ -17,7 +17,7 @@ class _NotificationsState extends State<Notifications> {
           padding: EdgeInsets.zero,
           itemCount: 12,
           itemBuilder: (context, index) {
-            return NotificationWidegt();
+            return NotificationWidget();
           },
           separatorBuilder: (context, index) {
             return Divider();

@@ -16,18 +16,7 @@ class ScanPage extends StatefulWidget {
 class _ScanPageState extends State<ScanPage> {
   String qrCodeResult = "Not Yet Scanned";
 
-  Future<void> getAttendance() async {
-    String jsondata = qrCodeResult;
-    Map<String, dynamic> mbody = json.decode(jsondata);
-    mbody['id'] = Get.arguments[0];
-
-    var url = Uri.parse('http://10.194.109.26:8000/instructor/attended');
-    var resp = await http.post(url, body: mbody);
-    if (resp.statusCode == 200) {
-      print("akdhfka");
-    }
-    Get.snackbar("title", "message");
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
