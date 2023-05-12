@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import '../utils/global.colors.dart';
 
-class CourseRegister extends StatelessWidget {
-  const CourseRegister({super.key});
+class Result extends StatelessWidget {
+  const Result({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CourseRegister extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          'Course Registration',
+          'Result',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,

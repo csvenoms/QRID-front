@@ -1,13 +1,18 @@
 // ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
 
+import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
+import 'package:get/get.dart';
+import '../TAB_SCREENS/AboutUs.dart';
 import '../TAB_SCREENS/CourseRegister.dart';
+import '../TAB_SCREENS/Result.dart';
+import '../TAB_SCREENS/Saved.dart';
+import '../TAB_SCREENS/setting.dart';
 
 class SlideBar extends StatelessWidget {
   const SlideBar({super.key});
-
+  void getData() {}
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -16,10 +21,10 @@ class SlideBar extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              'Name',
+              "${Get.arguments[0]} ${Get.arguments[1]}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            accountEmail: null,
+            accountEmail: Text("${Get.arguments[2]}"),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(),
             ),
@@ -32,7 +37,7 @@ class SlideBar extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.person),
-            title: Text('My Account'),
+            title: Text('My Information'),
             hoverColor: Colors.grey,
             onTap: () {
               Navigator.push(
@@ -54,27 +59,42 @@ class SlideBar extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Result'),
-            // onTap: () =>null,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Result()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.bookmark),
             title: Text('Saved'),
-            // onTap: () =>null,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Saved()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.settings_applications),
             title: Text('Setting'),
-            // onTap: () =>null,
-          ),
-          ListTile(
-            leading: Icon(Icons.help),
-            title: Text('Help & Support'),
-            // onTap: () =>null,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Setting()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.info),
             title: Text('About Us'),
-            // onTap: () =>null,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUs()),
+              );
+            },
           ),
         ],
       ),
