@@ -23,5 +23,6 @@ class Post {
 }
 
 class NetworkURL{
-  var URL= "http://10.194.109.26:8000";
+  static var URL= "http://10.194.109.26:8000";
+ 
 }

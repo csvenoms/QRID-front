@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/home.view.dart';
 
+import '../MODELS/Post.dart';
 import '../utils/global.colors.dart';
 import 'button.dart';
 import 'my_text_field.dart';
@@ -28,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
   // final id = RxString('');
   //sign users in method
   Future<void> signUserIn() async {
-    var url = Uri.parse('http://10.194.109.26:8000/api-token-auth/');
+    var url = Uri.parse('${NetworkURL.URL}/api-token-auth/');
     var response = await http.post(url, body: {
       'username': usernameController.text,
       'password': passwordController.text,
