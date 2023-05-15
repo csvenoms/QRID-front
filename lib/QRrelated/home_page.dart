@@ -42,7 +42,7 @@ class _QRState extends State<QR> {
               ),
               Button(
                 'Get QR',
-                const GenerateQrCodePage(),
+                 GenerateQrCodePage(id: id),
               ),
               const SizedBox(
                 height: 110.0,
@@ -75,7 +75,7 @@ class _QRState extends State<QR> {
         ),
         onPressed: () {
           
-          Get.to(widget,arguments: [id]);
+          Get.to(widget,arguments: {"id": id});
         },
         child: Text(
           text,

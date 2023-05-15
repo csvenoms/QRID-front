@@ -3,6 +3,7 @@
 class Post {
   
   final String userName;
+
   final bool isCreate;
   final String hour;
   final String imgPath;
@@ -19,4 +20,8 @@ class Post {
       postImage: json['postImage']
       );
   }
+}
+
+class NetworkURL{
+  var URL= "http://10.194.109.26:8000";
 }

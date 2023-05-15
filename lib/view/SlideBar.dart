@@ -40,10 +40,14 @@ class SlideBar extends StatelessWidget {
             title: Text('My Information'),
             hoverColor: Colors.grey,
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyAccount()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => MyAccount()),
+              // );
+              Get.to(MyAccount(), arguments: {'id': Get.arguments[2],
+              'name': "${Get.arguments[0]} ${Get.arguments[1]}",
+              
+              });
             },
           ),
           ListTile(
