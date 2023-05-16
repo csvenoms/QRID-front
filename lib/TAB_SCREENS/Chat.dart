@@ -21,7 +21,7 @@ class _ChatState extends State<Chat> {
         body: ListView.separated(
           physics: ClampingScrollPhysics(),
           padding: EdgeInsets.zero,
-          itemCount: 10,
+          itemCount: 1,
           itemBuilder: (context,index){
           return  ChatWidget();
         }, separatorBuilder: (context, index){
