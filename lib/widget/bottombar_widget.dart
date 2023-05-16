@@ -18,7 +18,7 @@ class BottombarWidget extends StatelessWidget {
               color: Colors.black,
               size: 35,
             ),
-            label: 'QR related',
+            label: '',
           ),
           const BottomNavigationBarItem(icon: Icon(null), label: ''),
         ],

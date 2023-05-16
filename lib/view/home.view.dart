@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             GestureDetector(
-              child: Text("afd00"),
+              child: Text(""),
               onTap: (() {
                 print("tappd");
               }),
