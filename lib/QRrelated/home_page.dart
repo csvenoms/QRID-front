@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'scanner_page.dart';
 import 'generator_page.dart';
+import '../utils/global.colors.dart';
 
 class QR extends StatefulWidget {
   const QR({Key? key}) : super(key: key);
@@ -15,11 +18,19 @@ class _QRState extends State<QR> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: GlobalColors.mainColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
         title: const Text(
-          'QRID',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          'ATTENDANCE',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontFamily: 'Space Age',
+          ),
         ),
         centerTitle: true,
       ),
@@ -34,15 +45,11 @@ class _QRState extends State<QR> {
                 height: 16.0,
               ),
               Button(
-                'Scan QR Code for attendance',
+                'Scan QR-CODE for Attendance',
                 const ScanPage(),
               ),
               const SizedBox(
                 height: 6.0,
-              ),
-              Button(
-                'Get QR',
-                 GenerateQrCodePage(id: id),
               ),
               const SizedBox(
                 height: 110.0,
@@ -74,8 +81,7 @@ class _QRState extends State<QR> {
           ),
         ),
         onPressed: () {
-          
-          Get.to(widget,arguments: {"id": id});
+          Get.to(widget, arguments: {"id": id});
         },
         child: Text(
           text,
