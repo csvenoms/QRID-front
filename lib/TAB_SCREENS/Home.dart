@@ -25,14 +25,6 @@ class Home extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.account_circle_outlined,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
                       Expanded(
                         child: TextField(
                           decoration: InputDecoration(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/QRrelated/home_page.dart';
 import 'package:get/get.dart';
 
-
 class BottombarWidget extends StatelessWidget {
   const BottombarWidget({super.key});
   @override
@@ -18,12 +17,12 @@ class BottombarWidget extends StatelessWidget {
               color: Colors.black,
               size: 35,
             ),
-            label: 'QR related',
+            label: '',
           ),
           const BottomNavigationBarItem(icon: Icon(null), label: ''),
         ],
             onTap: (value) {
-              Get.to(QR(),arguments: [ Get.arguments[2]]);
+              Get.to(QR(), arguments: [Get.arguments[2]]);
             }));
   }
 }

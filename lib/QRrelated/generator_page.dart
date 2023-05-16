@@ -2,22 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-
-class GenerateQrCodePage extends StatefulWidget {
-  const GenerateQrCodePage({Key? key}) : super(key: key);
-
-  @override
-  State<GenerateQrCodePage> createState() => _GenerateQrCodePageState();
-}
-
-class _GenerateQrCodePageState extends State<GenerateQrCodePage> {
-  String qrData = Get.arguments[0];
-  final qrText = TextEditingController();
+class GenerateQrCodePage extends StatelessWidget {
+  String id;
+   GenerateQrCodePage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    // final String idNo = Get.find().id;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -48,7 +38,7 @@ class _GenerateQrCodePageState extends State<GenerateQrCodePage> {
                 child: SizedBox(
                   height: 250,
                   child: QrImage(
-                    data: qrData,
+                    data: id,
                   ),
                 ),
               ),
@@ -67,10 +57,6 @@ class _GenerateQrCodePageState extends State<GenerateQrCodePage> {
               ),
               const SizedBox(
                 height: 12.0,
-              ),
-              
-              const SizedBox(
-                height: 30.0,
               ),
             ],
           ),

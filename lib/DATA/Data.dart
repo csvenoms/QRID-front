@@ -3,6 +3,7 @@
 import 'package:flutter_application_1/MODELS/Post.dart';
 
 class Data {
+
   static List<Post> dataList = [
     Post(
       userName: 'CCI Registrar',

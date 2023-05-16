@@ -5,6 +5,7 @@ import 'package:flutter_application_1/TAB_SCREENS/Chat.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:flutter_application_1/widget/bottombar_widget.dart';
 import 'package:get/get.dart';
+import '../TAB_SCREENS/ChangePassword.dart';
 import 'SlideBar.dart';
 
 import '../TAB_SCREENS/Channel.dart';
@@ -26,9 +27,8 @@ class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    
     return DefaultTabController(
-      length: 6,
+      length: 3,
       child: Scaffold(
         // ignore: prefer_const_constructors
         drawer: SlideBar(),
@@ -48,16 +48,46 @@ class _HomePageState extends State<HomePage> {
               fontFamily: 'Space Age',
             ),
           ),
-          actions: const [
+          actions: [
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.account_circle_outlined,
-                    color: Colors.black,
-                    size: 35,
+              child: PopupMenuButton(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangePassword(),
+                                ),
+                              );
+                            },
+                            child: Text('Change Password'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  onPressed: null),
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('Log out'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                child: CircleAvatar(
+                  child: ClipOval(),
+                ),
+              ),
             ),
           ],
         ),
@@ -102,14 +132,20 @@ class _HomePageState extends State<HomePage> {
                         physics: null,
                         controller: controller,
                         child: const Home()),
-                    
+
                     // ignore: prefer_const_constructors
                     Chat(),
-                   Notifications(),
+                    Notifications(),
                   ],
                 ),
               ),
             ),
+            GestureDetector(
+              child: Text(""),
+              onTap: (() {
+                print("tappd");
+              }),
+            )
           ],
         ),
         bottomNavigationBar: const BottombarWidget(),
