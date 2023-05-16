@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructors, duplicate_ignore
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/QRrelated/generator_page.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../utils/global.colors.dart';
@@ -111,7 +110,12 @@ class MyAccount extends StatelessWidget {
                   Container(
                     width: 300,
                     height: 300,
-                    child: QrImage(data: this.idNo),
+                    child: Center(
+                      child: QrImage(
+                        data: this.idNo,
+                        size: 250.0, // set the size of the QR image here
+                      ),
+                    ),
                   )
                 ],
               ))),
