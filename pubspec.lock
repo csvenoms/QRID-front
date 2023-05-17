@@ -14,7 +14,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   async:
     dependency: transitive
     description:
@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  barcode_scan2:
+    dependency: "direct main"
+    description:
+      name: barcode_scan2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -92,6 +99,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
+  fixnum:
+    dependency: transitive
+    description:
+      name: fixnum
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -139,24 +153,14 @@ packages:
     dependency: "direct main"
     description:
       name: http
-<<<<<<< HEAD
-      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
-      url: "https://pub.dev"
-=======
       url: "https://pub.dartlang.org"
->>>>>>> 1c3027f1c3321fdac3efd57a90f727c165082bff
     source: hosted
     version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
       name: http_parser
-<<<<<<< HEAD
-      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
-      url: "https://pub.dev"
-=======
       url: "https://pub.dartlang.org"
->>>>>>> 1c3027f1c3321fdac3efd57a90f727c165082bff
     source: hosted
     version: "4.0.2"
   image:
@@ -165,7 +169,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.15"
+    version: "4.0.17"
   js:
     dependency: transitive
     description:
@@ -229,6 +233,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.7.3"
+  protobuf:
+    dependency: transitive
+    description:
+      name: protobuf
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  qr:
+    dependency: transitive
+    description:
+      name: qr
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  qr_flutter:
+    dependency: "direct main"
+    description:
+      name: qr_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   scroll_app_bar:
     dependency: "direct main"
     description:
@@ -296,7 +321,7 @@ packages:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.1"
+    version: "1.3.2"
   vector_math:
     dependency: transitive
     description:
@@ -319,5 +344,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.1 <3.0.0"
+  dart: ">=2.18.4 <3.0.0"
   flutter: ">=2.0.1"

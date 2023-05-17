@@ -1,11 +1,14 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, duplicate_ignore
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import '../utils/global.colors.dart';
 
 class MyAccount extends StatelessWidget {
-  const MyAccount({super.key});
-
+  MyAccount({super.key});
+  String idNo = Get.arguments[2];
+  String name = "${Get.arguments[0]} ${Get.arguments[1]}";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,9 +89,10 @@ class MyAccount extends StatelessWidget {
                       border: OutlineInputBorder(),
                     ),
                     controller: TextEditingController(
-                      text: 'STUDENT NAME',
+                      text: name,
                     ),
                   ),
+                  SizedBox(height: 16),
                   TextField(
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -99,8 +103,20 @@ class MyAccount extends StatelessWidget {
                       labelText: 'Your ID',
                       border: OutlineInputBorder(),
                     ),
-                    controller: TextEditingController(text: 'NSR/####/##'),
+                    controller: TextEditingController(
+                      text: idNo,
+                    ),
                   ),
+                  Container(
+                    width: 300,
+                    height: 300,
+                    child: Center(
+                      child: QrImage(
+                        data: this.idNo,
+                        size: 250.0, // set the size of the QR image here
+                      ),
+                    ),
+                  )
                 ],
               ))),
     );

@@ -1,11 +1,12 @@
 // ignore: unused_import
-// ignore_for_file: prefer_const_constructors, unused_local_variable
+// ignore_for_file: prefer_const_constructors, unused_local_variable, duplicate_import
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/home.view.dart';
 
+import '../MODELS/Post.dart';
 import '../utils/global.colors.dart';
 import 'button.dart';
 import 'my_text_field.dart';
@@ -28,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
   // final id = RxString('');
   //sign users in method
   Future<void> signUserIn() async {
-    var url = Uri.parse('http://10.194.109.36:8000/api-token-auth/');
+    var url = Uri.parse('http://10.194.109.26:8000/api-token-auth/');
     var response = await http.post(url, body: {
       'username': usernameController.text,
       'password': passwordController.text,
@@ -47,29 +48,13 @@ class _LoginViewState extends State<LoginView> {
         );
       } else {
         String name = jsonResponse['name'];
-        
-        String lname=jsonResponse['lname'];
+
+        String lname = jsonResponse['lname'];
+         String id = jsonResponse['id'];
         // var id = ''.obs;
 
-        Get.to(HomePage(), arguments: [name,lname]);
+        Get.to(HomePage(), arguments: [name, lname,id]);
       }
-=======
-  
-    //sign users in method
-  void signUserIn() {
-    if (usernameController.text == 'fasika' && 
-        passwordController.text == 'fasika') {
-      
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      ));
-
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Invalid username or password'),
-        ),
-      );
     }
   }
 
