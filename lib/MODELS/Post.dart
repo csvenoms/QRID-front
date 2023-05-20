@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 class Post {
   final String userName;
@@ -27,6 +27,6 @@ class Post {
 
 
 class NetworkURL {
-  static var URL = "http://10.194.109.28:8000";
+  static var URL = "http://10.194.109.19:8000";
 }
 

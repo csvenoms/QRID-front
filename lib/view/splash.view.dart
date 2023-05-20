@@ -5,6 +5,9 @@ import 'package:flutter_application_1/utils/global.colors.dart';
 import 'package:flutter_application_1/view/login.view.dart';
 import 'package:get/get.dart';
 
+import '../MODELS/ann.dart';
+import '../QRrelated/COURSEREGISTRATION.dart';
+
 // ignore: use_key_in_widget_constructors
 class SplashView extends StatefulWidget {
   @override
@@ -27,7 +30,7 @@ class SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 5), () {
-      Get.to(const LoginView());
+      Get.to( LoginView());
     });
     return Scaffold(
       backgroundColor: GlobalColors.mainColor,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
 import 'package:get/get.dart';
+import '../QRrelated/COURSEREGISTRATION.dart';
 import '../TAB_SCREENS/AboutUs.dart';
 import '../TAB_SCREENS/CourseRegister.dart';
 import '../TAB_SCREENS/Result.dart';
@@ -54,10 +55,10 @@ class SlideBar extends StatelessWidget {
             leading: Icon(Icons.app_registration_outlined),
             title: Text('Course Registration'),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CourseRegister()),
-              );
+                Get.to(RegisterCourse(), arguments: {'id': Get.arguments[2],
+              'name': "${Get.arguments[0]} ${Get.arguments[1]}",
+              
+              });
             },
           ),
           ListTile(

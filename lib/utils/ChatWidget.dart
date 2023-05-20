@@ -12,25 +12,25 @@ class ChatWidget extends StatelessWidget {
         // Navigate to the new page when the ListTile is tapped
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ChatDetailsScreen()),
+          MaterialPageRoute(builder: (context) => const ChatDetailsScreen()),
         );
       },
       child: ListTile(
         leading: Container(
           height: 50.0,
           width: 50.0,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/logo/wku-logo.png'),
               fit: BoxFit.cover,
             ),
           ),
         ),
-        title: Text(
+        title: const Text(
           'Hamnu',
           style: TextStyle(color: Colors.black),
         ),
-        subtitle: Text(
+        subtitle: const Text(
           'My cutie pie',
           style: TextStyle(color: Color.fromARGB(255, 40, 39, 39)),
         ),
@@ -51,15 +51,15 @@ class ChatDetailsScreen extends StatelessWidget {
         titleSpacing: 0.0, 
         title: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: kToolbarHeight, 
               height: kToolbarHeight, 
               child: CircleAvatar(
                 backgroundImage: AssetImage('assets/logo/wku-logo.png'),
               ),
             ),
-            SizedBox(width: 8.0), // add some spacing between avatar and title
-            Text('Hamnu'),
+            const SizedBox(width: 8.0), // add some spacing between avatar and title
+            const Text('Hamnu'),
           ],
         ),
       ),
@@ -78,10 +78,10 @@ class ChatDetailsScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: <Widget>[
-                Expanded(
+                const Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Type your message...',
@@ -89,12 +89,12 @@ class ChatDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () {},
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.camera),
+                  icon: const Icon(Icons.camera),
                 ),
               ],
             ),
@@ -122,15 +122,15 @@ class ChatMessageWidget extends StatelessWidget {
           isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-          padding: EdgeInsets.all(16.0),
+          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             color: isMe ? Colors.blue : Colors.grey[300],
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Text(
             message,
-            style: TextStyle(fontSize: 16.0),
+            style: const TextStyle(fontSize: 16.0),
           ),
         ),
       ],

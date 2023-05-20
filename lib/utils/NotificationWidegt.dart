@@ -18,10 +18,10 @@ class NotificationWidget extends StatelessWidget {
         if (isEarlier && index == 0) // Show the "Earlier" header for the first notification item
           Row(
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text(
+              const Text(
                 "Earlier",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -33,10 +33,10 @@ class NotificationWidget extends StatelessWidget {
         if (!isEarlier && index % 2 == 1 && index == 1) // Show the "Older" header for the first older notification item
           Row(
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Text(
+              const Text(
                 "Older",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -45,17 +45,17 @@ class NotificationWidget extends StatelessWidget {
               ),
             ],
           ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         ListTile(
-          leading: CircleAvatar(
+          leading: const CircleAvatar(
             backgroundImage: AssetImage("assets/logo/wku-logo.png"),
           ),
-          title: Text(
+          title: const Text(
             "New announcement for all students is here.",
           ),
-          trailing: Icon(Icons.notifications_active),
+          trailing: const Icon(Icons.notifications_active),
           onTap: () => {},
         ),
       ],

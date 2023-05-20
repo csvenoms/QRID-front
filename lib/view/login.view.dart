@@ -29,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
   // final id = RxString('');
   //sign users in method
   Future<void> signUserIn() async {
-    var url = Uri.parse('http://10.194.109.26:8000/api-token-auth/');
+    var url = Uri.parse('${NetworkURL.URL}/api-token-auth/');
     var response = await http.post(url, body: {
       'username': usernameController.text,
       'password': passwordController.text,

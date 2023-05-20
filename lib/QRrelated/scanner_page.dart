@@ -6,6 +6,7 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import '../MODELS/Post.dart';
 import '../utils/global.colors.dart';
 import 'package:http/http.dart' as http;
 
@@ -111,7 +112,7 @@ class _ScanPageState extends State<ScanPage> {
                           ),
                         );
                         var url = Uri.parse(
-                            "http://10.194.109.26:8000/instructor/attended");
+                            "${NetworkURL.URL}/instructor/attended");
                         var resp = await http.post(url,
                             headers: headers, body: jsonString);
                         if (resp.statusCode == 200) {
