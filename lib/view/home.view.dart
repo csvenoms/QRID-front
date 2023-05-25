@@ -29,6 +29,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   String qrCodeResult = "Not Yet Scanned";
+  late String batch, department, id;
+  @override
+  void initState() {
+    AuthTokenSave.getbatch().then((value) {
+      setState(() {
+        batch = value ?? "na token found";
+      });
+    });
+    AuthTokenSave.getId().then((value) {
+      setState(() {
+        id = value ?? "na id found";
+      });
+    });
+    AuthTokenSave.getDept().then((value) {
+      setState(() {
+        department = value ?? "no dept found";
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,14 +166,19 @@ class _HomePageState extends State<HomePage> {
                 });
               } catch (e) {}
 
-              String jsonString = qrCodeResult +
-                  '"stud_id":"' +
-                  "${AuthTokenSave.getId()}" +
-                  '"}';
+              String jsonString = qrCodeResult + '"stud_id":"' + "$id" + '"}';
 
               jsonString = jsonString.replaceAll("'", "\"");
               final jsonObject = jsonDecode(jsonString);
-              Get.snackbar("title", "${jsonObject['department']}");
+              if (batch != jsonObject['year'] ||
+                  department != jsonObject['targetGroup']) {
+                Get.dialog(AlertDialog(
+                  title: Text("Attendance Error"),
+                  content: Text(
+                      "The attendance is not for $batch year $department students!"),
+                ));
+                return;
+              }
               Map<String, String> headers = {
                 "Content-Type": "application/json; charset=UTF-8"
               };

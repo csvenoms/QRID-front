@@ -24,7 +24,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GetMaterialApp(
       debugShowCheckedModeBanner: true,
-      home: SplashView(),
+      home: token != null ? HomePage() : SplashView(),
     );
   }
 }
