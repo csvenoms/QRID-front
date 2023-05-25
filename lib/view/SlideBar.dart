@@ -3,17 +3,39 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/TAB_SCREENS/My_Account.dart';
+import 'package:flutter_application_1/view/sharedPreference.dart';
 import 'package:get/get.dart';
-import '../QRrelated/COURSEREGISTRATION.dart';
+import '../TAB_SCREENS/COURSEREGISTRATION.dart';
 import '../TAB_SCREENS/AboutUs.dart';
-import '../TAB_SCREENS/CourseRegister.dart';
 import '../TAB_SCREENS/Result.dart';
 import '../TAB_SCREENS/Saved.dart';
 import '../TAB_SCREENS/setting.dart';
 
-class SlideBar extends StatelessWidget {
-  const SlideBar({super.key});
-  void getData() {}
+class SideBar extends StatefulWidget {
+  const SideBar({super.key});
+
+  @override
+  State<SideBar> createState() => _SideBarState();
+}
+
+class _SideBarState extends State<SideBar> {
+  late String fullName;
+  late String id;
+  @override
+  void initState() {
+    AuthTokenSave.getFullName().then((value) {
+      setState(() {
+        fullName = value ?? "na full name found";
+      });
+    });
+    AuthTokenSave.getId().then((value) {
+      setState(() {
+        id = value ?? "na id found";
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -22,10 +44,10 @@ class SlideBar extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              "${Get.arguments[0]} ${Get.arguments[1]}",
+              "${fullName}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            accountEmail: Text("${Get.arguments[2]}"),
+            accountEmail: Text("${id}"),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(),
             ),
@@ -41,13 +63,10 @@ class SlideBar extends StatelessWidget {
             title: Text('My Information'),
             hoverColor: Colors.grey,
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => MyAccount()),
-              // );
-              Get.to(MyAccount(), arguments: {'id': Get.arguments[2],
-              'name': "${Get.arguments[0]} ${Get.arguments[1]}",
               
+              Get.to(MyAccount(), arguments: {
+                'id': Get.arguments[2],
+                'name': "${Get.arguments[0]} ${Get.arguments[1]}",
               });
             },
           ),
@@ -55,10 +74,7 @@ class SlideBar extends StatelessWidget {
             leading: Icon(Icons.app_registration_outlined),
             title: Text('Course Registration'),
             onTap: () {
-                Get.to(RegisterCourse(), arguments: {'id': Get.arguments[2],
-              'name': "${Get.arguments[0]} ${Get.arguments[1]}",
-              
-              });
+              Get.to(RegisterCourse());
             },
           ),
           ListTile(

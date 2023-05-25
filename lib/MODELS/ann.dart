@@ -45,7 +45,7 @@ class AnnouncementsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Announcements'),
+        title: const Text('Announcements'),
       ),
       body: FutureBuilder<List<Announcement>>(
         // Future that resolves to a list of announcements
@@ -78,7 +78,7 @@ class AnnouncementsScreen extends StatelessWidget {
                         ),
                         
                       ),
-                      SizedBox(height: 8,),
+                      const SizedBox(height: 8,),
                       Column(
                         children: [
                           Container(
@@ -86,7 +86,7 @@ class AnnouncementsScreen extends StatelessWidget {
                             child: Image(
                               image: NetworkImage('${NetworkURL.URL}/${announcement.announcement}')),
                           ),
-                          Icon(Icons.bookmark_add)
+                          const Icon(Icons.bookmark_add)
                         ],
                       )
                     ],
@@ -95,11 +95,11 @@ class AnnouncementsScreen extends StatelessWidget {
               },
             );
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Failed to load announcements'),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

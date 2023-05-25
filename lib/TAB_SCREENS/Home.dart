@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: file_names, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
 import 'dart:convert';
 
@@ -34,6 +34,7 @@ class Announcement {
 
 class Home extends StatelessWidget {
   const Home({super.key});
+
   Future<List<Announcement>> _getAnnouncements() async {
     final response = await http
         .get(Uri.parse('${NetworkURL.URL}/registrar/getAnnouncementAPI'));
@@ -53,6 +54,7 @@ class Home extends StatelessWidget {
       color: GlobalColors.mainColor,
       child: Column(
         children: [
+         
           SizedBox(
             height: 15,
           ),
@@ -92,53 +94,79 @@ class Home extends StatelessWidget {
               child: FutureBuilder(
                 future: _getAnnouncements(),
                 builder: (context, snapshot) {
-                  List<Announcement> announcements = snapshot.data!;
+                  List<Announcement>? announcements = snapshot.data;
                   if (snapshot.hasData) {
                     return ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: announcements.length,
+                      itemCount: announcements?.length,
                       itemBuilder: (context, index) {
-                        Announcement announcement = announcements[index];
-                        return Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Row(
-                                  children: [
-                                    SizedBox(height: 8,),
-                                   Image.asset('assets/logo/wku-logo.png',
-            width: 40.0,
-            height: 40.0,),
-
-                                    Text("${announcement.announcer} ", style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20
-                                    ),
-                                    )
-                                  ],
-                                ),
-                              
+                        Announcement announcement = announcements![index];
+                        return  Container(
+                            child: Column(
+                          children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Image.asset(
+                                    'assets/logo/wku-logo.png',
+                                    width: 40.0,
+                                    height: 40.0,
+                                  ),
+                                  Text(
+                                    "${announcement.announcer} ",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )
+                                ],
                               ),
-                              Container(
-                                child: Image(
-                                  image: NetworkImage("${NetworkURL.URL}${announcement.announcement}") ),
-                              ),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 300,),
-                                    GestureDetector(
+                            ),
+                            Container(
+                              child: Image(
+                                  image: NetworkImage(
+                                      "${NetworkURL.URL}${announcement.announcement}")),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 300,
+                                  ),
+                                  GestureDetector(
                                       child: Icon(Icons.book),
-                                      onTap: () {
-                                        Get.snackbar("Success", "save announcement", colorText: Colors.white, backgroundColor: Colors.green, icon: Icon(Icons.bookmark_added_outlined));
-                                      },
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          )
-                        );
+                                      onTap: () async {
+                                        try {
+                                          var response = await http.post(
+                                              Uri.parse(
+                                                  "${NetworkURL.URL}/getUserAnnouncements"),
+                                              body: {
+                                                "announcement_id":
+                                                    "${announcement.id}",
+                                                "user": "${Get.arguments[3]}",
+                                              });
+                                          if (response.statusCode == 201) {
+                                            Get.snackbar(
+                                                "Success", "save announcement",
+                                                colorText: Colors.white,
+                                                backgroundColor: Colors.green,
+                                                icon: Icon(Icons
+                                                    .bookmark_added_outlined));
+                                          }
+                                        } catch (e) {
+                                          Get.dialog(AlertDialog(
+                                            content: Text("${e}"),
+                                          ));
+                                        }
+                                      })
+                                ],
+                              ),
+                            )
+                          ],
+                        ));
                       },
                     );
                   } else if (snapshot.hasError) {
@@ -156,6 +184,4 @@ class Home extends StatelessWidget {
       ),
     );
   }
-
- 
 }

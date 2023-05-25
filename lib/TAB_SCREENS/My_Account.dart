@@ -4,11 +4,40 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../utils/global.colors.dart';
+import '../view/sharedPreference.dart';
 
-class MyAccount extends StatelessWidget {
-  MyAccount({super.key});
-  String idNo = Get.arguments[2];
-  String name = "${Get.arguments[0]} ${Get.arguments[1]}";
+class MyAccount extends StatefulWidget {
+  const MyAccount({super.key});
+
+  @override
+  State<MyAccount> createState() => _MyAccountState();
+}
+
+class _MyAccountState extends State<MyAccount> {
+  late String name;
+  late String id;
+  late String token;
+
+  @override
+  void initState() {
+    AuthTokenSave.getFullName().then((value) {
+      setState(() {
+        name = value ?? "na full name found";
+      });
+    });
+    AuthTokenSave.getAuthenticationToken().then((value) {
+      setState(() {
+        token = value ?? "na token found";
+      });
+    });
+    AuthTokenSave.getId().then((value) {
+      setState(() {
+        id = value ?? "na id found";
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +133,7 @@ class MyAccount extends StatelessWidget {
                       border: OutlineInputBorder(),
                     ),
                     controller: TextEditingController(
-                      text: idNo,
+                      text: id,
                     ),
                   ),
                   Container(
@@ -112,7 +141,7 @@ class MyAccount extends StatelessWidget {
                     height: 300,
                     child: Center(
                       child: QrImage(
-                        data: this.idNo,
+                        data: this.token,
                         size: 250.0, // set the size of the QR image here
                       ),
                     ),

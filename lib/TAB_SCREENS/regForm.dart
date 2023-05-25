@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../utils/global.colors.dart';
+import '../view/sharedPreference.dart';
 
 enum GENDER { male, female }
 
@@ -12,15 +14,22 @@ enum KindItems { foodOnly, beddingOnly, FoodAndBedding }
 
 enum CashItems { foodOnly, beddingOnly, FoodAndBedding }
 
-class RegisterCourse extends StatefulWidget {
-  const RegisterCourse({super.key});
-
-  @override
-  State<RegisterCourse> createState() => _RegisterCourseState();
+extension GENDERExtension on GENDER {
+  String get name {
+    return this.toString().split('.').last;
+  }
 }
 
-class _RegisterCourseState extends State<RegisterCourse> {
-  GENDER? _character = GENDER.male;
+class Forms extends StatefulWidget {
+  const Forms({super.key});
+
+  @override
+  State<Forms> createState() => _FormsState();
+}
+
+class _FormsState extends State<Forms> {
+late String name, id, batch, dept;
+
   Withdrawn? _withdraw = Withdrawn.no;
   KindItems? _kindItems = KindItems.FoodAndBedding;
   CashItems? _cashItems = CashItems.FoodAndBedding;
@@ -35,14 +44,51 @@ class _RegisterCourseState extends State<RegisterCourse> {
       SchoolselectedRegion; // Define selectedCountry as a property in the widget's state
   String? departmentYear;
   String? department;
+  int currentYear = DateTime.now().year;
+  GENDER? _character = GENDER.male;
+  final nationalityController = TextEditingController();
+  String gender = '';
+
   @override
   void initState() {
     super.initState();
+    AuthTokenSave.getFullName().then((value) {
+      setState(() {
+        name = value ?? "na full name found";
+      });
+    });
+    AuthTokenSave.getbatch().then((value) {
+      setState(() {
+        batch = value ?? "na token found";
+      });
+    });
+    AuthTokenSave.getId().then((value) {
+      setState(() {
+        id = value ?? "na id found";
+      });
+    });
+    AuthTokenSave.getDept().then((value) {
+      setState(() {
+        dept = value ?? "no dept found";
+      });
+    });
     selectedCountry = 'Ethiopian';
     MothersselectedRegion = 'Select region';
     SchoolselectedRegion = 'Select region';
     departmentYear = 'II';
     department = 'Computer Science';
+  }
+void getStringGender() {
+    switch (_character) {
+      case GENDER.female:
+        gender = "female";
+        break;
+      case GENDER.male:
+        gender = "male";
+        break;
+      case null:
+        break;
+    }
   }
 
   Future<void> _selectBirthDate(BuildContext context) async {
@@ -83,40 +129,12 @@ class _RegisterCourseState extends State<RegisterCourse> {
         selectedDate = pickedDate;
       });
   }
-String regQrData = "";
-    void _getData() async {
-      try {
-        final result = await BarcodeScanner.scan();
-        setState(() {
-          regQrData = result.rawContent;
-        });
-      } catch (e) {
-        // Handle error
-      }
-    }
+
+  
+  DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    
-
-    return Scaffold(
-        backgroundColor: GlobalColors.mainColor,
-        appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white,
-          title: const Text(
-            'Course Registration',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontFamily: 'Space Age',
-            ),
-          ),
-          centerTitle: true,
-        ),
-        body: (regQrData != "")
-            ? (SingleChildScrollView(
+    return (batch== "2nd")?(SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 8.0),
@@ -143,9 +161,9 @@ String regQrData = "";
                                     border: Border.all(),
                                     borderRadius: BorderRadius.circular(8.0)),
                                 width: 240,
-                                child: const Text(
-                                  "Yeabsra Ayehualem Shashego",
-                                  style: TextStyle(
+                                child: Text(
+                                  name,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 )),
@@ -159,9 +177,9 @@ String regQrData = "";
                                     const EdgeInsets.symmetric(horizontal: 3.0),
                                 width: 80,
                                 height: 50,
-                                child: const Text(
-                                  "NSR/####/##",
-                                  style: TextStyle(
+                                child: Text(
+                                  id,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ))
@@ -243,6 +261,7 @@ String regQrData = "";
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(8.0)),
                           child: TextFormField(
+                            controller: nationalityController,
                             decoration: const InputDecoration(
                               hintText: 'Nationality',
                             ),
@@ -608,7 +627,7 @@ String regQrData = "";
                               width: 80,
                               child: TextFormField(
                                 decoration: const InputDecoration(
-                                  label: Text('Enterance Year'),
+                                  hintText: 'entrance year',
                                 ),
                               ),
                             ),
@@ -621,39 +640,21 @@ String regQrData = "";
                                       fontSize: 16.0),
                                 ),
                                 Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(),
-                                      borderRadius: BorderRadius.circular(8.0)),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  width: 70,
-                                  child: DropdownButtonFormField<String>(
-                                    items: <String>[
-                                      'II',
-                                      'III',
-                                      'IV',
-                                      'V',
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
-                                      try {
-                                        setState(() {
-                                          departmentYear = value!;
-                                        });
-                                        print('Selected year: $departmentYear');
-                                      } catch (e) {
-                                        print('Error: $e');
-                                      }
-                                    },
-                                    value: departmentYear,
-                                  ),
-                                ),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    width: 70,
+                                    child: Text(
+                                      "$batch year",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    )),
                               ],
                             ),
                             Container(
@@ -667,11 +668,10 @@ String regQrData = "";
                               width: 140,
                               child: Column(
                                 children: [
-                                  TextFormField(
-                                    decoration: const InputDecoration(
-                                      hintText: 'Current Year',
-                                    ),
-                                  ),
+                                  Text("${now.year}",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold))
                                 ],
                               ),
                             )
@@ -679,44 +679,26 @@ String regQrData = "";
                         ),
                         const SizedBox(height: 16),
                         Container(
-                            child: Column(
-                          children: [
-                            const Text(
-                              "Department",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(8.0)),
-                              padding: const EdgeInsets.only(left: 7),
-                              child: DropdownButtonFormField<String>(
-                                items: <String>[
-                                  'Computer Science',
-                                  'Information Technology',
-                                  'Information System',
-                                  'Software Engeneering',
-                                ].map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  try {
-                                    setState(() {
-                                      department = value!;
-                                    });
-                                    print('Selected department: $department');
-                                  } catch (e) {
-                                    print('Error: $e');
-                                  }
-                                },
-                                value: department,
+                            child: Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Department",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0),
                               ),
-                            ),
-                          ],
+                              Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  padding: const EdgeInsets.only(left: 7),
+                                  child: Text(
+                                    dept,
+                                    style: TextStyle(fontSize: 24),
+                                  )),
+                            ],
+                          ),
                         )),
                         const SizedBox(height: 16),
                         const Text("Have you ever withdrawn?",
@@ -749,8 +731,6 @@ String regQrData = "";
                               },
                             ),
                             const Text('No'),
-// if yes enter data of withdrawal
-//                   SizedBox(width: 6)
 
                             (_withdraw == Withdrawn.yes)
                                 ? (Container(
@@ -798,8 +778,7 @@ String regQrData = "";
                           children: [
                             Radio(
                               value: KindItems.FoodAndBedding,
-                              groupValue:
-                                  _kindItems, // Update group value accordingly
+                              groupValue: _kindItems,
                               onChanged: (value) {
                                 setState(() {
                                   _kindItems = value;
@@ -809,8 +788,7 @@ String regQrData = "";
                             const Text('Food and bedding'),
                             Radio(
                               value: KindItems.foodOnly,
-                              groupValue:
-                                  _kindItems, // Update group value accordingly
+                              groupValue: _kindItems,
                               onChanged: (value) {
                                 setState(() {
                                   _kindItems = value;
@@ -839,8 +817,7 @@ String regQrData = "";
                           children: [
                             Radio(
                               value: CashItems.FoodAndBedding,
-                              groupValue:
-                                  _cashItems, // Update group value accordingly
+                              groupValue: _cashItems,
                               onChanged: (value) {
                                 setState(() {
                                   _cashItems = value;
@@ -850,8 +827,7 @@ String regQrData = "";
                             const Text('Food and bedding'),
                             Radio(
                               value: CashItems.foodOnly,
-                              groupValue:
-                                  _cashItems, // Update group value accordingly
+                              groupValue: _cashItems,
                               onChanged: (value) {
                                 setState(() {
                                   _cashItems = value;
@@ -893,6 +869,8 @@ String regQrData = "";
                               ),
                             ),
                             onPressed: () {
+                              getStringGender();
+                             
                               Get.dialog(AlertDialog(
                                 icon: const Icon(Icons.add_alert),
                                 title:
@@ -903,7 +881,7 @@ String regQrData = "";
                                   TextButton(
                                     child: const Text('Agree'),
                                     onPressed: () {
-                                      //////
+                              
                                       Get.back();
                                     },
                                   ),
@@ -921,13 +899,321 @@ String regQrData = "";
                         ),
                       ])),
                 ),
-              ))
-            : (Center(
-                child: GestureDetector(
-                    child: Text("Scan qr"),
-                    onTap: () async {
-                      _getData();
-                    }),
-              )));
+               )
+               ): (
+                SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text("your informatin",style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+                        Container(
+                          width: 300,
+                          child: Row(
+                          children: [
+                            Text(name, style: TextStyle(fontSize:22, fontWeight: FontWeight.bold),),
+                            SizedBox(width: 8,),
+                            Text(id, style: TextStyle(fontSize:22, fontWeight: FontWeight.bold))
+                          ],
+                        ),
+
+                        ),
+ const SizedBox(
+                          height: 16,
+                        ),
+                        const Text(
+                            "Collage Information \n Wolkite, Computing and Informatics College",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            )),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              margin: const EdgeInsets.only(
+                                  top: 15.0, right: 8.0, left: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              width: 80,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  hintText: 'entrance year',
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                const Text(
+                                  "Dept' Year",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0),
+                                ),
+                                Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    width: 70,
+                                    child: Text(
+                                      "$batch year",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              ],
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              margin: const EdgeInsets.only(
+                                  top: 15.0, left: 8.0, right: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              width: 140,
+                              child: Column(
+                                children: [
+                                  Text("${now.year}",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                            child: Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Department",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0),
+                              ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  padding: const EdgeInsets.only(left: 7),
+                                  child: Text(
+                                    dept,
+                                    style: TextStyle(fontSize: 24),
+                                  )),
+                            ],
+                          ),
+                        )),
+                        const SizedBox(height: 16),
+                        const Text("Have you ever withdrawn?",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            )),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Radio(
+                              value: Withdrawn.yes,
+                              groupValue:
+                                  _withdraw, // Update group value accordingly
+                              onChanged: (value) {
+                                setState(() {
+                                  _withdraw = value;
+                                });
+                              },
+                            ),
+                            const Text('Yes'),
+                            Radio(
+                              value: Withdrawn.no,
+                              groupValue:
+                                  _withdraw, // Update group value accordingly
+                              onChanged: (value) {
+                                setState(() {
+                                  _withdraw = value;
+                                });
+                              },
+                            ),
+                            const Text('No'),
+
+                            (_withdraw == Withdrawn.yes)
+                                ? (Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3.0),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    width: 190,
+                                    child: Column(
+                                      children: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              _selectWithdrawalDate(context),
+                                          child: const Text(
+                                              'Select Date of Withdrawal'),
+                                        ),
+                                        Text(
+                                            '${selectedWithdrawalDate.day.toString()}/${selectedWithdrawalDate.month.toString()}/${selectedWithdrawalDate.year.toString()}'),
+                                      ],
+                                    ),
+                                  ))
+                                : const Text(""),
+//else display Text(""),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const Text(
+                          "What service would you demand?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text('In Kind',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Row(
+                          children: [
+                            Radio(
+                              value: KindItems.FoodAndBedding,
+                              groupValue: _kindItems,
+                              onChanged: (value) {
+                                setState(() {
+                                  _kindItems = value;
+                                });
+                              },
+                            ),
+                            const Text('Food and bedding'),
+                            Radio(
+                              value: KindItems.foodOnly,
+                              groupValue: _kindItems,
+                              onChanged: (value) {
+                                setState(() {
+                                  _kindItems = value;
+                                });
+                              },
+                            ),
+                            const Text('Food '),
+                            Radio(
+                              value: KindItems.beddingOnly,
+                              groupValue:
+                                  _kindItems, // Update group value accordingly
+                              onChanged: (value) {
+                                setState(() {
+                                  _kindItems = value;
+                                });
+                              },
+                            ),
+                            const Text('Bedding '),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        const Text('In Cash',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Row(
+                          children: [
+                            Radio(
+                              value: CashItems.FoodAndBedding,
+                              groupValue: _cashItems,
+                              onChanged: (value) {
+                                setState(() {
+                                  _cashItems = value;
+                                });
+                              },
+                            ),
+                            const Text('Food and bedding'),
+                            Radio(
+                              value: CashItems.foodOnly,
+                              groupValue: _cashItems,
+                              onChanged: (value) {
+                                setState(() {
+                                  _cashItems = value;
+                                });
+                              },
+                            ),
+                            const Text('Food '),
+                            Radio(
+                              value: CashItems.beddingOnly,
+                              groupValue:
+                                  _cashItems, // Update group value accordingly
+                              onChanged: (value) {
+                                setState(() {
+                                  _cashItems = value;
+                                });
+                              },
+                            ),
+                            const Text('Bedding '),
+                          ],
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(
+                              left: 30.0, right: 30.0, top: 20.0),
+                          height: 68.0,
+                          width: 500,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.0,
+                                  style: BorderStyle.solid,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  32.0,
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              getStringGender();
+                             
+                              Get.dialog(AlertDialog(
+                                icon: const Icon(Icons.add_alert),
+                                title:
+                                    const Text("Alert \n Terms of agreement."),
+                                content: const Text(
+                                    "I agree in accordance with contractual agreement and higher education proclamation NO. 351/1995 and the higher edcation cost sharing regulation 154/2008 of the councile of MoSHE agree and accept this contract! This will be after graduation."),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('Agree'),
+                                    onPressed: () {
+                              
+                                      Get.back();
+                                    },
+                                  ),
+                                ],
+                              ));
+                            },
+                            child: const Text(
+                              "Register",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                    ),
+                    )
+               );
   }
 }

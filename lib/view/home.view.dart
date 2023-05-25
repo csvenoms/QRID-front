@@ -1,8 +1,11 @@
 // ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, unused_import, prefer_const_constructors
+import 'dart:convert';
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/TAB_SCREENS/Chat.dart';
+import 'package:flutter_application_1/view/login.view.dart';
+import 'package:flutter_application_1/view/sharedPreference.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:flutter_application_1/widget/bottombar_widget.dart';
 import 'package:get/get.dart';
@@ -19,8 +22,6 @@ import 'package:http/http.dart' as http;
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  // final String id = Get.arguments[2].obs;
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       length: 3,
       child: Scaffold(
           // ignore: prefer_const_constructors
-          drawer: SlideBar(),
+          drawer: SideBar(),
           appBar: ScrollAppBar(
             // ignore: prefer_const_constructors
 
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
             ),
             controller: controller,
             backgroundColor: Colors.white,
-            title: const Text(
+            title: Text(
               'JEFORE',
               style: TextStyle(
                 color: Colors.black,
@@ -53,45 +54,34 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             actions: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChangePassword(),
-                                  ),
-                                );
-                              },
-                              child: Text('Change Password'),
-                            ),
+              IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () async {
+                  final logoutUrl = '${NetworkURL.URL}/api_logout';
+
+                  final response = await http.post(Uri.parse(logoutUrl),
+                      headers: {'Authorization': 'Token ${Get.arguments[3]}'});
+
+                  if (response.statusCode == 200) {
+                    AuthTokenSave.clearAuthenticationData();
+                    Get.offAll(LoginView()); // Handle successful logout
+                  } else {
+                    Get.dialog(
+                      AlertDialog(
+                        title: Text('Alert'),
+                        content: Text('${response.statusCode}'),
+                        actions: [
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Get.back();
+                            },
                           ),
                         ],
                       ),
-                    ),
-                    PopupMenuItem(
-                      child: Row(
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Log out'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  child: CircleAvatar(
-                    child: ClipOval(),
-                  ),
-                ),
+                    );
+                  }
+                },
               ),
             ],
           ),
@@ -144,16 +134,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              GestureDetector(
-                child: Text(""),
-                onTap: (() {
-                  print("tappd");
-                }),
-              )
             ],
           ),
           bottomNavigationBar: GestureDetector(
-            
             child: Icon(Icons.qr_code_2_rounded, size: 40),
             onTap: () async {
               try {
@@ -161,32 +144,21 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   qrCodeResult = result.rawContent;
                 });
-              } catch (e) {
-                Get.dialog(AlertDialog(
-                  title: Text("error"),
-                  content: Text("${e}"),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text('OK'),
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
-                ));
-              }
+              } catch (e) {}
 
-              String jsonString =
-                  qrCodeResult + '"stud_id":"' + Get.arguments[0] + '"}';
+              String jsonString = qrCodeResult +
+                  '"stud_id":"' +
+                  "${AuthTokenSave.getId()}" +
+                  '"}';
 
               jsonString = jsonString.replaceAll("'", "\"");
+              final jsonObject = jsonDecode(jsonString);
+              Get.snackbar("title", "${jsonObject['department']}");
               Map<String, String> headers = {
                 "Content-Type": "application/json; charset=UTF-8"
               };
 
-             
-              var url =
-                  Uri.parse("${NetworkURL.URL}/instructor/attended");
+              var url = Uri.parse("${NetworkURL.URL}/instructor/attended");
               var resp =
                   await http.post(url, headers: headers, body: jsonString);
               if (resp.statusCode == 200) {
@@ -212,6 +184,4 @@ class _HomePageState extends State<HomePage> {
           )),
     );
   }
-
-  
 }

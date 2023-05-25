@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/home.view.dart';
+import 'package:flutter_application_1/view/sharedPreference.dart';
 
 import '../MODELS/Post.dart';
 import '../utils/global.colors.dart';
@@ -25,9 +26,6 @@ class _LoginViewState extends State<LoginView> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // final name = RxString('');
-  // final id = RxString('');
-  //sign users in method
   Future<void> signUserIn() async {
     var url = Uri.parse('${NetworkURL.URL}/api-token-auth/');
     var response = await http.post(url, body: {
@@ -37,8 +35,8 @@ class _LoginViewState extends State<LoginView> {
 
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
-      var token = jsonResponse['token'];
-
+      String token = jsonResponse['token'];
+      AuthTokenSave.saveAuthenticationData(token);
       if (jsonResponse['roll'] != 'Student') {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -50,10 +48,27 @@ class _LoginViewState extends State<LoginView> {
         String name = jsonResponse['name'];
 
         String lname = jsonResponse['lname'];
-         String id = jsonResponse['id'];
-        // var id = ''.obs;
+        String id = jsonResponse['id'];
+        var dataGeter = await http.get(Uri.parse(
+            "${NetworkURL.URL}/getUserData/${usernameController.text}"));
+        if (dataGeter.statusCode == 200) {
+          var userdata = json.decode(dataGeter.body);
+          AuthTokenSave.saveBatch(userdata['batch']);
+          AuthTokenSave.saveId(userdata['student_id']);
+          AuthTokenSave.saveDepartment(userdata['student_department']);
+          AuthTokenSave.saveFullName(
+              "${userdata['first_name']} ${userdata['last_name']}");
 
-        Get.to(HomePage(), arguments: [name, lname,id]);
+          Get.to(HomePage(), arguments: [
+            name,
+            lname,
+            id,
+            token,
+          ]);
+        } else {
+          Get.snackbar("Error", "unable to get user data",
+              backgroundColor: Colors.red, colorText: Colors.white);
+        }
       }
     }
   }
