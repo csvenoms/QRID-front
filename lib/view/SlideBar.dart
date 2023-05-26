@@ -64,19 +64,17 @@ class _SideBarState extends State<SideBar> {
             hoverColor: Colors.grey,
             onTap: () {
               
-              Get.to(MyAccount(), arguments: {
-                'id': Get.arguments[2],
-                'name': "${Get.arguments[0]} ${Get.arguments[1]}",
-              });
+              Get.to(MyAccount());
             },
           ),
-          ListTile(
+          (AuthTokenSave.getRegStatus()!="registered")?
+          (ListTile(
             leading: Icon(Icons.app_registration_outlined),
             title: Text('Course Registration'),
             onTap: () {
               Get.to(RegisterCourse());
             },
-          ),
+          )): Text(""),
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Result'),

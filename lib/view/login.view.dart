@@ -58,13 +58,11 @@ class _LoginViewState extends State<LoginView> {
           AuthTokenSave.saveDepartment(userdata['student_department']);
           AuthTokenSave.saveFullName(
               "${userdata['first_name']} ${userdata['last_name']}");
+          AuthTokenSave.saveEmail(userdata['email']);
 
-          Get.to(HomePage(), arguments: [
-            name,
-            lname,
-            id,
-            token,
-          ]);
+          Get.to(
+            HomePage(),
+          );
         } else {
           Get.snackbar("Error", "unable to get user data",
               backgroundColor: Colors.red, colorText: Colors.white);

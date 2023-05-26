@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, duplicate_ignore, unused_import, prefer_const_constructors
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   String qrCodeResult = "Not Yet Scanned";
-  late String batch, department, id;
+  late String batch, department, id,token;
   @override
   void initState() {
+    AuthTokenSave.getAuthenticationToken().then((value) {
+      setState(() {
+        token = value ?? "na token found";
+      });
+    });
     AuthTokenSave.getbatch().then((value) {
       setState(() {
         batch = value ?? "na token found";
@@ -80,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   final logoutUrl = '${NetworkURL.URL}/api_logout';
 
                   final response = await http.post(Uri.parse(logoutUrl),
-                      headers: {'Authorization': 'Token ${Get.arguments[3]}'});
+                      headers: {'Authorization': 'Token ${token}'});
 
                   if (response.statusCode == 200) {
                     AuthTokenSave.clearAuthenticationData();
@@ -175,7 +181,20 @@ class _HomePageState extends State<HomePage> {
                 Get.dialog(AlertDialog(
                   title: Text("Attendance Error"),
                   content: Text(
-                      "The attendance is not for $batch year $department students!"),
+                      "The attendance is not for $batch year $department students!\n It is ${jsonObject['year']} year ${jsonObject['targetGroup']}"),
+                ));
+                return;
+              }
+              DateTime now = DateTime.now();
+              final formatter = DateFormat('yyyy-MM-dd');
+final formattedDate = formatter.format(now);
+
+
+              if (jsonObject['date']!= "$formattedDate"){
+                Get.dialog(AlertDialog(
+                  title: Text("Attendance Error"),
+                  content: Text(
+                      "The attendance form is expired or not correct!"),
                 ));
                 return;
               }
