@@ -729,7 +729,7 @@ class _FormsState extends State<Forms> {
                                 width: 70,
                                 child: Text(
                                   "$batch year",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 )),
@@ -746,7 +746,7 @@ class _FormsState extends State<Forms> {
                           child: Column(
                             children: [
                               Text("${now.year}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold))
                             ],
@@ -801,7 +801,7 @@ class _FormsState extends State<Forms> {
                         child: Center(
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             "Department",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.0),
@@ -813,7 +813,7 @@ class _FormsState extends State<Forms> {
                               padding: const EdgeInsets.only(left: 7),
                               child: Text(
                                 dept,
-                                style: TextStyle(fontSize: 24),
+                                style: const TextStyle(fontSize: 24),
                               )),
                         ],
                       ),
@@ -999,23 +999,31 @@ class _FormsState extends State<Forms> {
                                             "${NetworkURL.URL}/registrar/courseRegistration"),
                                         body: jsonObject);
                                     if (response.statusCode == 201) {
-                                      Get.snackbar("Succe",
+                                      Get.snackbar("Success",
                                           "Registration Successfull! You can check you grade and next semister course in Results Tap!",
                                           backgroundColor: Colors.green,
                                           colorText: Colors.white,
                                           snackPosition: SnackPosition.TOP);
                                       AuthTokenSave.saveRegistrationStatus(
                                           "registered");
-                                      Get.to(HomePage());
+                                      Get.to(const HomePage());
                                     } else {
+                                      var jsonObj = json.decode(response.body);
                                       Get.dialog(AlertDialog(
-                                        title: Text("error"),
-                                        content: Text("${response.body}"),
+                                        title: const Text("error"),
+                                        content: Text("${jsonObj['message']}"),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Get.to(HomePage());
+                                              },
+                                              child: Text("ok"))
+                                        ],
                                       ));
                                     }
                                   } catch (e) {
                                     Get.dialog(AlertDialog(
-                                      title: Text("error"),
+                                      title: const Text("error"),
                                       content: Text("$e"),
                                     ));
                                   }
@@ -1040,7 +1048,7 @@ class _FormsState extends State<Forms> {
             child: Center(
                 child: Column(
               children: [
-                Text("your informatin",
+                const Text("your informatin",
                     style:
                         TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
                 Container(
@@ -1049,14 +1057,14 @@ class _FormsState extends State<Forms> {
                     children: [
                       Text(
                         name,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Text(id,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold))
                     ],
                   ),
@@ -1103,7 +1111,7 @@ class _FormsState extends State<Forms> {
                             width: 70,
                             child: Text(
                               "$batch year",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                       ],
@@ -1119,7 +1127,7 @@ class _FormsState extends State<Forms> {
                       child: Column(
                         children: [
                           Text("${now.year}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold))
                         ],
                       ),
@@ -1173,7 +1181,7 @@ class _FormsState extends State<Forms> {
                     child: Center(
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Department",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
@@ -1185,7 +1193,7 @@ class _FormsState extends State<Forms> {
                           padding: const EdgeInsets.only(left: 7),
                           child: Text(
                             dept,
-                            style: TextStyle(fontSize: 24),
+                            style: const TextStyle(fontSize: 24),
                           )),
                     ],
                   ),
@@ -1388,11 +1396,20 @@ class _FormsState extends State<Forms> {
                                       backgroundColor: Colors.green,
                                       colorText: Colors.white);
 
-                                  Get.to(HomePage());
+                                  Get.to(const HomePage());
                                 } else {
-                                  Get.snackbar("title", "${response.statusCode}",
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white);
+                                  var jsonObj = json.decode(response.body);
+                                  Get.dialog(AlertDialog(
+                                    title: const Text("error"),
+                                    content: Text("${jsonObj['message']}"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Get.to(HomePage());
+                                          },
+                                          child: Text("ok"))
+                                    ],
+                                  ));
                                 }
                               } catch (e) {
                                 Get.dialog(AlertDialog(
@@ -1413,10 +1430,10 @@ class _FormsState extends State<Forms> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 18,
                 ),
-                Text("")
+                const Text("")
               ],
             )),
           ));

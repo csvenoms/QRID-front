@@ -17,7 +17,25 @@ class RegisterCourse extends StatefulWidget {
 
 class _RegisterCourseState extends State<RegisterCourse> {
   
-  
+   String caesarCipherDecrypt(String encryptedText, int shift) {
+  String decryptedText = '';
+  for (int i = 0; i < encryptedText.length; i++) {
+    int charCode = encryptedText.codeUnitAt(i);
+    if (charCode >= 65 && charCode <= 90) { // Uppercase letters
+      charCode -= shift;
+      if (charCode < 65) {
+        charCode += 26;
+      }
+    } else if (charCode >= 97 && charCode <= 122) { // Lowercase letters
+      charCode -= shift;
+      if (charCode < 97) {
+        charCode += 26;
+      }
+    }
+    decryptedText += String.fromCharCode(charCode);
+  }
+  return decryptedText;
+}
 String regQrData = "";
   Map<String, dynamic> map = {};
   Future<void> _getData() async {
@@ -25,9 +43,11 @@ String regQrData = "";
       final result = await BarcodeScanner.scan();
       setState(() {
         regQrData = result.rawContent;
-        map = json.decode(regQrData.replaceAll("'", '"'));
-        if (map['data'] == "2023 registration form") {
-          regQrData = "2nd";
+       
+        map = json.decode(regQrData.replaceAll("'", '"')); 
+        String decryptedText = caesarCipherDecrypt(regQrData, 3);
+        if (map['data'] == "${DateTime.now().year} registration form") {
+          regQrData = "found";
         }
       });
     } catch (e) {

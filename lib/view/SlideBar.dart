@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
 
@@ -44,10 +43,10 @@ class _SideBarState extends State<SideBar> {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              "${fullName}",
+              fullName,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            accountEmail: Text("${id}"),
+            accountEmail: Text(id),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(),
             ),

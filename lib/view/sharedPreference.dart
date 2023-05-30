@@ -1,6 +1,17 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthTokenSave {
+  static bool darkTheme = false;
+static Future<void> saveThemestate(String darkTheme) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('darkTheme', darkTheme);
+  }
+
+    static Future<String?> getThemeStat() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('darkTheme');
+  }
+
   static Future<void> saveAuthenticationData(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
@@ -65,7 +76,8 @@ class AuthTokenSave {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('fullname', fullname);
   }
- static Future<void> saveEmail(String email) async {
+
+  static Future<void> saveEmail(String email) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', email);
   }
@@ -78,7 +90,7 @@ class AuthTokenSave {
     await prefs.remove('batch');
     await prefs.remove('fullname');
     await prefs.remove('registered');
-        await prefs.remove('emial');
-
+    await prefs.remove('emial');
+    await prefs.remove('darkTheme');
   }
 }

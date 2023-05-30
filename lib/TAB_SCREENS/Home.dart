@@ -1,13 +1,14 @@
 // ignore_for_file: file_names, sized_box_for_whitespace, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../MODELS/Post.dart';
 import '../utils/global.colors.dart';
 import 'package:http/http.dart' as http;
 import '../DATA/Data.dart';
+import '../view/sharedPreference.dart';
 
 class Announcement {
   final int id;
@@ -32,9 +33,14 @@ class Announcement {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Home extends StatefulWidget {
+  Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   Future<List<Announcement>> _getAnnouncements() async {
     final response = await http
         .get(Uri.parse('${NetworkURL.URL}/registrar/getAnnouncementAPI'));
@@ -48,13 +54,24 @@ class Home extends StatelessWidget {
     }
   }
 
+  late String email;
+  @override
+  void initState() {
+    AuthTokenSave.getEmail().then((value) {
+      setState(() {
+        email = value ?? "na email found";
+      });
+    });
+    super.initState();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: GlobalColors.mainColor,
       child: Column(
         children: [
-         
           SizedBox(
             height: 15,
           ),
@@ -102,7 +119,7 @@ class Home extends StatelessWidget {
                       itemCount: announcements?.length,
                       itemBuilder: (context, index) {
                         Announcement announcement = announcements![index];
-                        return  Container(
+                        return Container(
                             child: Column(
                           children: [
                             Container(
@@ -142,11 +159,13 @@ class Home extends StatelessWidget {
                                         try {
                                           var response = await http.post(
                                               Uri.parse(
-                                                  "${NetworkURL.URL}/getUserAnnouncements"),
+                                                  "${NetworkURL.URL}/UserSaveAnnouncements"),
                                               body: {
-                                                "announcement_id":
-                                                    "${announcement.id}",
-                                                "user": "${Get.arguments[3]}",
+                                                "announcer":
+                                                    "${announcement.announcer}",
+                                                "user": "$email",
+                                                "announcement":
+                                                    "${announcement.announcement}"
                                               });
                                           if (response.statusCode == 201) {
                                             Get.snackbar(

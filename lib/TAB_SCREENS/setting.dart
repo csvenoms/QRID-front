@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/view/sharedPreference.dart';
 import '../utils/global.colors.dart';
 import 'ChangePassword.dart';
 import 'PrivacyAndSecurityScreen.dart';
@@ -19,6 +20,10 @@ class _SettingState extends State<Setting> {
   onChangeFunction1(bool newValue1) {
     setState(() {
       valNotify1 = newValue1;
+      if (valNotify1) {
+        AuthTokenSave.saveThemestate("true");
+      }else{        AuthTokenSave.saveThemestate("false");
+}
     });
   }
 

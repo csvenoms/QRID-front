@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
   String qrCodeResult = "Not Yet Scanned";
-  late String batch, department, id,token;
+  late String batch, department, id, token;
   @override
   void initState() {
     AuthTokenSave.getAuthenticationToken().then((value) {
@@ -56,10 +56,32 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  String caesarCipherDecrypt(String encryptedText, int shift) {
+    String decryptedText = '';
+    for (int i = 0; i < encryptedText.length; i++) {
+      int charCode = encryptedText.codeUnitAt(i);
+      if (charCode >= 65 && charCode <= 90) {
+        // Uppercase letters
+        charCode -= shift;
+        if (charCode < 65) {
+          charCode += 26;
+        }
+      } else if (charCode >= 97 && charCode <= 122) {
+        // Lowercase letters
+        charCode -= shift;
+        if (charCode < 97) {
+          charCode += 26;
+        }
+      }
+      decryptedText += String.fromCharCode(charCode);
+    }
+    return decryptedText;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
           // ignore: prefer_const_constructors
           drawer: SideBar(),
@@ -86,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                   final logoutUrl = '${NetworkURL.URL}/api_logout';
 
                   final response = await http.post(Uri.parse(logoutUrl),
-                      headers: {'Authorization': 'Token ${token}'});
+                      headers: {'Authorization': 'Token $token'});
 
                   if (response.statusCode == 200) {
                     AuthTokenSave.clearAuthenticationData();
@@ -115,6 +137,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Container(
                 child: const TabBar(
+                
                   labelPadding: EdgeInsets.all(1),
                   tabs: [
                     Tab(
@@ -125,6 +148,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       // onPressed: null
                     ),
+                    
                     Tab(
                       icon: Icon(
                         Icons.chat_outlined,
@@ -133,14 +157,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       // onPressed: null
                     ),
-                    Tab(
-                      icon: Icon(
-                        Icons.notifications_none_outlined,
-                        color: Colors.black,
-                        size: 35,
-                      ),
-                      // onPressed: null
-                    ),
+                   
                   ],
                 ),
               ),
@@ -149,13 +166,10 @@ class _HomePageState extends State<HomePage> {
                   child: TabBarView(
                     children: [
                       SingleChildScrollView(
-                          physics: null,
-                          controller: controller,
-                          child: const Home()),
-
+                          physics: null, controller: controller, child: Home()),
                       // ignore: prefer_const_constructors
-                      Chat(),
-                      Notifications(),
+                     MessageScreen(),
+                     
                     ],
                   ),
                 ),
@@ -169,32 +183,33 @@ class _HomePageState extends State<HomePage> {
                 final result = await BarcodeScanner.scan();
                 setState(() {
                   qrCodeResult = result.rawContent;
+                  qrCodeResult = caesarCipherDecrypt(qrCodeResult, 3);
                 });
               } catch (e) {}
 
               String jsonString = qrCodeResult + '"stud_id":"' + "$id" + '"}';
 
               jsonString = jsonString.replaceAll("'", "\"");
+
               final jsonObject = jsonDecode(jsonString);
               if (batch != jsonObject['year'] ||
                   department != jsonObject['targetGroup']) {
                 Get.dialog(AlertDialog(
                   title: Text("Attendance Error"),
                   content: Text(
-                      "The attendance is not for $batch year $department students!\n It is ${jsonObject['year']} year ${jsonObject['targetGroup']}"),
+                      "The attendance is not for $batch year $department students!"),
                 ));
                 return;
               }
               DateTime now = DateTime.now();
               final formatter = DateFormat('yyyy-MM-dd');
-final formattedDate = formatter.format(now);
+              final formattedDate = formatter.format(now);
 
-
-              if (jsonObject['date']!= "$formattedDate"){
+              if (jsonObject['date'] != "$formattedDate") {
                 Get.dialog(AlertDialog(
                   title: Text("Attendance Error"),
-                  content: Text(
-                      "The attendance form is expired or not correct!"),
+                  content:
+                      Text("The attendance form is expired or not correct!"),
                 ));
                 return;
               }
